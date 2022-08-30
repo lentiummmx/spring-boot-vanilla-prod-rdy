@@ -2,30 +2,33 @@ version: "3.3"
 
 services:
   postgres:
-    container_name: sbs_postgres
+    container_name: sbv_postgres
     image: "postgres:13.3"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: spring_boot_simple
+      POSTGRES_DB: spring_boot_vanilla
     ports:
       - 5433:5432
+    volumes:
+      - ../data/pgsql:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - spring-boot-simple
+      - spring-boot-vanilla
 
   app:
-    container_name: spring_boot_simple_persistence
+    container_name: spring_boot_vanilla_persistence
     build:
       context: .
+      #dockerfile: ./docker/Dockerfile
     ports:
       - 8080:8080
     networks:
-      - spring-boot-simple
+      - spring-boot-vanilla
     depends_on:
       postgres:
         condition: service_healthy
@@ -36,4 +39,4 @@ services:
       retries: 10
 
 networks:
-  spring-boot-simple:
+  spring-boot-vanilla:
