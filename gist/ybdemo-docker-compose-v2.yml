@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  yugabytedb:
+    image: docker.io/yugabytedb/yugabyte:latest
+    command: |
+      bash -c '
+      mkdir -p /var/ybinit
+      echo "create database $${POSTGRES_DB:-$${POSTGRES_USER}}             " > /var/ybinit/01-db.sql
+      echo "create user $${POSTGRES_USER} password '$${POSTGRES_PASSWORD}' " > /var/ybinit/02-usr.sql
+      # start YugabyteDB
+      bin/yugabyted start --daemon=false --initial_scripts_dir=/var/ybinit --tserver_flags=ysql_enable_auth=true
+      '
+    environment:
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=knextest
+      - POSTGRES_DB=knex_test
+    ports:
+      - 25433:5433
+      - 27000:7000
+
+  waityugabyte:
+    image: postgres:13-alpine
+    links:
+      - yugabytedb
+    depends_on:
+      - yugabytedb
+    entrypoint:
+      - bash
+      - -c
+      - 'until PGPASSWORD=knextest /usr/local/bin/psql postgres://testuser@yugabytedb:5433/knex_test -c "SELECT 1"; do sleep 5; done'
