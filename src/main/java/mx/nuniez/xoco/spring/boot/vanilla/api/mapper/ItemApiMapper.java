@@ -4,21 +4,13 @@ import mx.nuniez.xoco.spring.boot.vanilla.api.dto.CreateItemDto;
 import mx.nuniez.xoco.spring.boot.vanilla.api.dto.UpdateItemDto;
 import mx.nuniez.xoco.spring.boot.vanilla.service.domain.CreateItemRequest;
 import mx.nuniez.xoco.spring.boot.vanilla.service.domain.UpdateItemRequest;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class ItemApiMapper {
+@Mapper(componentModel = "spring")
+public interface ItemApiMapper {
 
-    public CreateItemRequest map(CreateItemDto createItemDto) {
-        return CreateItemRequest.builder()
-                .title(createItemDto.getTitle())
-                .build();
-    }
+    CreateItemRequest map(CreateItemDto createItemDto);
 
-    public UpdateItemRequest map(UpdateItemDto updateItemDto) {
-        return UpdateItemRequest.builder()
-                .title(updateItemDto.getTitle())
-                .build();
-    }
+    UpdateItemRequest map(UpdateItemDto updateItemDto);
 
 }
