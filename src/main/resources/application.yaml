@@ -1,1 +1,18 @@
 #server.port: 7305
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/spring_boot_vanilla
+    #username: admin
+    #password: admin
+    username: yugabyte
+    password: yugabyte
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+
+  liquibase:
+    change-log: "classpath:changelog/db.changelog-master.yaml"
+    contexts: prod
+  profiles:
+    active: dev

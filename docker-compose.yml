@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  postgres:
+  postgresql_container:
     container_name: sbv_postgres
     image: "postgres:13.3"
     environment:
@@ -11,9 +11,29 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - ../data/pgsql:/var/lib/postgresql/data
+      - ~/pgsql-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - spring-boot-vanilla
+
+  yugabyte_container:
+    container_name: sbv_yugabyte
+    image: "yugabytedb/yugabyte:latest"
+    ports:
+      - 7000:7000
+      - 9000:9000
+      - 5433:5433
+      - 9042:9042
+    volumes:
+      - ~/yugabyte-data:/root/var/data
+      #- ~/yugabyte-logs:/root/var/logs
+    command: [ "bin/yugabyted", "start", "--daemon=false" ]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yugabyte"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,7 +50,8 @@ services:
     networks:
       - spring-boot-vanilla
     depends_on:
-      postgres:
+      #postgresql_container:
+      yugabyte_container:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/items"]
