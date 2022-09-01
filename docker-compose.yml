@@ -12,6 +12,7 @@ services:
       - 5433:5432
     volumes:
       - ~/pgsql-data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin"]
       interval: 10s
@@ -40,6 +41,7 @@ services:
       mkdir -p /var/ybinit
       echo "CREATE DATABASE $${POSTGRES_DB:-$${POSTGRES_USER}}            " > /var/ybinit/01-db.sql
       echo "create user $${POSTGRES_USER} password '$${POSTGRES_PASSWORD}'" > /var/ybinit/02-usr.sql
+      echo "set log_statement='all'; set log_destination=stderr;          " > /var/ybinit/99-logging.sql
       # start YugabyteDB
       bin/yugabyted start --daemon=false --initial_scripts_dir=/var/ybinit --tserver_flags=ysql_enable_auth=true
       '
@@ -49,6 +51,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - spring-boot-vanilla
+
+  redis_container:
+    container_name: sbv_redis
+    image: redis:6.2.3
+    ports:
+      - 6380:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
     networks:
       - spring-boot-vanilla
 
