@@ -1,6 +1,6 @@
 package mx.nuniez.xoco.spring.boot.vanilla.api.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class CreateItemDto {
 
     @NotNull
     @Size(min = 1, max = 255)
-    @ApiModelProperty(value = "Product item title")
+    //@ApiModelProperty(value = "Product item title")
     private String title;
 
 }
