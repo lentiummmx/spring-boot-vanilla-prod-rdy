@@ -39,6 +39,10 @@ dependencies {
     //implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    //implementation 'io.micrometer:micrometer-registry-prometheus:1.7.0'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation platform('org.testcontainers:testcontainers-bom:1.15.3')
     testImplementation('org.testcontainers:postgresql')
