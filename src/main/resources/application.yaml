@@ -1,4 +1,10 @@
 #server.port: 7305
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/spring_boot_vanilla
@@ -20,3 +26,10 @@ spring:
     contexts: prod
   profiles:
     active: dev
+
+  redis:
+    port: 6380
+
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
