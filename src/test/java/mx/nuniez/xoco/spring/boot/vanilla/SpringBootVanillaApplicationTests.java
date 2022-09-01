@@ -3,8 +3,10 @@ package mx.nuniez.xoco.spring.boot.vanilla;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class SpringBootVanillaApplicationTests {
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+class SpringBootVanillaApplicationTests extends AbstractIntegrationTest {
 
     @Test
     void contextLoads() {

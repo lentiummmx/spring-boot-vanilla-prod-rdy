@@ -17,7 +17,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
         AbstractCacheIT.RedisContextInitializer.class
 })
 @SpringBootTest(classes = SpringBootVanillaApplication.class, webEnvironment = RANDOM_PORT)
-public class AbstractCacheIT extends AbstractIntegrationTest {
+public class AbstractCacheIT {
 
     @Autowired
     protected CacheManager cacheManager;

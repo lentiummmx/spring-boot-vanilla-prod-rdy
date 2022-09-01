@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @ActiveProfiles("test")
 @ContextConfiguration(initializers = AbstractIntegrationTest.DatabaseContextInitializer.class)
 @SpringBootTest(classes = SpringBootVanillaApplication.class, webEnvironment = RANDOM_PORT)
-public abstract class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest extends AbstractCacheIT {
 
     //private static final PostgreSQLContainer<?> POSTGRESQL_CONTAINER;
     private static final YugabyteYSQLContainer YUGABYTE_CONTAINER;
