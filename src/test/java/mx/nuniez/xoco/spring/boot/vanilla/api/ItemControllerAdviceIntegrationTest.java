@@ -6,17 +6,14 @@ import mx.nuniez.xoco.spring.boot.vanilla.api.dto.ErrorsDto;
 import mx.nuniez.xoco.spring.boot.vanilla.service.domain.Item;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Sql(scripts = {
         "/sql/clean.sql",
@@ -58,13 +55,6 @@ public class ItemControllerAdviceIntegrationTest extends AbstractIntegrationTest
         assertThat(error.getBody().getErrors().get(0).getMessage()).isEqualTo("size must be between 1 and 255");
         assertThat(error.getBody().getErrors().get(0).getPath()).isEqualTo("create.createItemRequest.title");
         assertThat(error.getBody().getErrors().get(0).getValue()).isEqualTo(title);
-    }
-
-    private HttpHeaders httpHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-        headers.setAccept(List.of(APPLICATION_JSON));
-        return headers;
     }
 
 }
