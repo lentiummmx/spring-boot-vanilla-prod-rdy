@@ -1,6 +1,6 @@
 package mx.nuniez.xoco.spring.boot.vanilla.api;
 
-import mx.nuniez.xoco.spring.boot.vanilla.AbstractCacheIT;
+import mx.nuniez.xoco.spring.boot.vanilla.AbstractIntegrationTest;
 import mx.nuniez.xoco.spring.boot.vanilla.api.dto.CreateItemDto;
 import mx.nuniez.xoco.spring.boot.vanilla.service.domain.Item;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         "/sql/clean.sql",
         "/sql/product_items.sql"
 })
-public class ItemControllerCacheIT extends AbstractCacheIT {
+public class ItemControllerCacheIT extends AbstractIntegrationTest {
 
     @Test
     public void shouldGetItem_FromCache() {
