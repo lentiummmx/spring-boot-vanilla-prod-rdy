@@ -32,7 +32,8 @@ public class DefaultItemService implements ItemService {
     @Override
     @Cacheable(ITEMS_CACHE)
     public Item getOne(Long id) {
-        return mapper.map(repository.getOne(id));
+        //return mapper.map(repository.getOne(id));
+        return mapper.map(repository.customSelectById(id));
     }
 
     @Override
