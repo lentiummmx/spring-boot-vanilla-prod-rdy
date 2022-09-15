@@ -1,7 +1,22 @@
 package mx.nuniez.xoco.spring.boot.vanilla.api.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.HeaderParameter;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.HandlerMethod;
 //import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //import springfox.documentation.builders.ParameterBuilder;
 //import springfox.documentation.builders.PathSelectors;
@@ -19,7 +34,7 @@ import java.util.List;
 
 //@EnableWebMvc
 //@EnableSwagger2
-//@Configuration
+@Configuration
 public class SwaggerConfiguration {
 
 //    @Bean
@@ -49,6 +64,28 @@ public class SwaggerConfiguration {
 //                .globalOperationParameters(parameters);
 //    }
 //
+    @Bean
+    public GroupedOpenApi api() {
+        return GroupedOpenApi.builder()
+                .group("spring-boot-vanilla")
+                .pathsToMatch("/**")
+                //.addOperationCustomizer(new OperationCustomizer() {
+                //    @Override
+                //    public Operation customize(Operation operation, HandlerMethod handlerMethod) {
+                //        operation.addParametersItem(new HeaderParameter()
+                //                        .name("Content-Type")
+                //                        .description("Content-Type")
+                //                        .required(true));
+                //        operation.addParametersItem(new HeaderParameter()
+                //                        .name("Authorization")
+                //                        .description("JWT token")
+                //                        .required(false));
+                //        return operation;
+                //    }
+                //})
+                .build();
+    }
+//
 //    private ApiInfo apiInfo() {
 //        return new ApiInfo(
 //                "Spring Boot Vanilla REST API",
@@ -60,5 +97,30 @@ public class SwaggerConfiguration {
 //                "https://www.apache.org/licenses/LICENSE-2.0",
 //                new ArrayList<>());
 //    }
+//
+    @Bean
+    public OpenAPI springShopOpenAPI() {
+        return new OpenAPI()
+                .components(new Components()
+                        .addSecuritySchemes("basicScheme", new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic"))
+                        .addParameters("Authorization", new Parameter().in("header").schema(new StringSchema()).name("JWT token"))
+                        .addHeaders("Content-Type", new Header().description("Content-Type").schema(new StringSchema())))
+                .info(new Info().title("Spring Boot Vanilla REST API")
+                        .description("Spring Boot Vanilla REST API Swagger Documentation")
+                        .version("v0.0.1")
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                .externalDocs(new ExternalDocumentation()
+                        .description("SpringShop Wiki Documentation")
+                        .url("https://springshop.wiki.github.org/docs"));
+    }
+
+    @Bean
+    public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
+        return openApi -> openApi.getPaths().values().stream().flatMap(pathItem -> pathItem.readOperations().stream())
+                .forEach(operation ->{
+                    operation.addParametersItem(new HeaderParameter().$ref("#/components/headers/Content-Type"));
+                    operation.addParametersItem(new HeaderParameter().$ref("#/components/headers/Authorization"));
+                });
+    }
 
 }

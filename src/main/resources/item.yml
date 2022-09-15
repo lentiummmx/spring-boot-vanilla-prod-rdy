@@ -1,0 +1,9 @@
+openapi: 3.0.2
+paths:
+  /:
+components:
+  securitySchemes:
+    content_type:
+      type: contentType
+      name: Content-Type
+      in: header
