@@ -2,4 +2,5 @@
 
 docker-compose down
 
-rm -rf ~/yugabyte-data/*
+#rm -rf ~/yugabyte-data/*
+rm -rf /opt/dvlpmnt/db-data/yugabyte-data/*
