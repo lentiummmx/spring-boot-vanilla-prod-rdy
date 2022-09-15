@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker-compose up --build yugabyte_container redis_container prometheus_container grafana_container app
+docker-compose up --build yugabyte_container redis_container prometheus_container grafana_container
+#docker-compose up --build yugabyte_container redis_container prometheus_container grafana_container app

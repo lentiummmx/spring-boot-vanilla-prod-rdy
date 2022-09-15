@@ -11,7 +11,7 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - ~/pgsql-data:/var/lib/postgresql/data
+      - /opt/dvlpmnt/db-data/pgsql-data:/var/lib/postgresql/data
     command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin"]
@@ -34,8 +34,8 @@ services:
       - 5433:5433
       - 9042:9042
     volumes:
-      - ~/yugabyte-data:/root/var/data
-      - ~/yugabyte-logs:/root/var/logs
+      - /opt/dvlpmnt/db-data/yugabyte-data:/root/var/data
+      - /opt/dvlpmnt/db-data/yugabyte-logs:/root/var/logs
     command: |
       bash -c '
       mkdir -p /var/ybinit
